@@ -147,3 +147,11 @@ executable day13
                        containers >= 0.5,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
+
+executable day14
+  hs-source-dirs:      day14
+  main-is:             Main.hs
+  ghc-options:         -O2 -Wall
+  build-depends:       base >=4.8 && <4.9,
+                       advent-of-code >= 0.1.0.0
+  default-language:    Haskell2010
