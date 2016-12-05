@@ -16,7 +16,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       base >= 4.8
   exposed-modules:     AOC.IO
   ghc-options:         -O2 -Wall 
   default-language:    Haskell2010
@@ -27,7 +27,7 @@ executable day1
   -- other-modules:       
   -- other-extensions:    
   ghc-options:         -O2 -Wall 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -35,7 +35,7 @@ executable day2
   hs-source-dirs:      day2
   main-is:             Main.hs
   ghc-options:         -O2 -Wall 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        text >= 1.2.1,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
@@ -44,7 +44,7 @@ executable day3
   hs-source-dirs:      day3
   main-is:             Main.hs
   ghc-options:         -O2 -Wall 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -52,7 +52,7 @@ executable day4
   hs-source-dirs:      day4
   main-is:             Main.hs
   ghc-options:         -O2 -Wall 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        cryptohash >= 0.11,
                        bytestring >= 0.10,
                        base16-bytestring >= 0.1,
@@ -63,7 +63,7 @@ executable day5
   hs-source-dirs:      day5
   main-is:             Main.hs
   ghc-options:         -O2 -Wall 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        regex-pcre >= 0.94,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
@@ -73,7 +73,7 @@ executable day6
   main-is:             Main.hs
   ghc-options:         -O2 -threaded -Wall 
   --  -fprof-auto -rtsopts
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        regex-compat >= 0.94,
                        split >= 0.2,
                        containers >= 0.5,
@@ -84,7 +84,7 @@ executable day7
   hs-source-dirs:      day7
   main-is:             Main.hs
   ghc-options:         -O2 -Wall -threaded
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        split >= 0.2,
                        containers >= 0.5,
                        advent-of-code >= 0.1.0.0
@@ -94,7 +94,7 @@ executable day8
   hs-source-dirs:      day8
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -102,7 +102,7 @@ executable day9
   hs-source-dirs:      day9
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        containers >= 0.5,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
@@ -111,7 +111,7 @@ executable day10
   hs-source-dirs:      day10
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -119,7 +119,7 @@ executable day11
   hs-source-dirs:      day11
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -127,7 +127,7 @@ executable day12
   hs-source-dirs:      day12
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        regex-pcre >= 0.94,
                        parsec >= 3.1,
                        aeson >= 0.10,
@@ -143,7 +143,7 @@ executable day13
   hs-source-dirs:      day13
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        containers >= 0.5,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
@@ -152,7 +152,7 @@ executable day14
   hs-source-dirs:      day14
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
 
@@ -160,6 +160,15 @@ executable day15
   hs-source-dirs:      day15
   main-is:             Main.hs
   ghc-options:         -O2 -Wall
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >= 4.8,
+                       advent-of-code >= 0.1.0.0
+  default-language:    Haskell2010
+
+executable day16
+  hs-source-dirs:      day16
+  main-is:             Main.hs
+  ghc-options:         -O2 -Wall
+  build-depends:       base >= 4.8,
+                       containers >= 0.5,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010

@@ -20,14 +20,18 @@ main = do
 
 ingredients :: [String]
             -> [Ingredient]
-ingredients = map (\line -> let l = words line
-                         in Ingredient { name        = init $ head l, -- skip colon e.g. Sugar:
-                                         capacity    = read (init $ l !! 2)  :: Int, -- skip comma e.g. 10,
-                                         durability  = read (init $ l !! 4)  :: Int,
-                                         flavor      = read (init $ l !! 6)  :: Int,
-                                         texture     = read (init $ l !! 8)  :: Int,
-                                         calories    = read (l !! 10)  :: Int -- last value (no comma)
-                                       })
+ingredients =
+  map (\line ->
+      let l = words line
+      in Ingredient {
+        name        = init $ head l, -- skip colon e.g. Sugar:
+        capacity    = read (init $ l !! 2)  :: Int, -- skip comma e.g. 10,
+        durability  = read (init $ l !! 4)  :: Int,
+        flavor      = read (init $ l !! 6)  :: Int,
+        texture     = read (init $ l !! 8)  :: Int,
+        calories    = read (l !! 10)  :: Int -- last value (no comma)
+        }
+      )
 
 calculateScores :: [Ingredient] -> [[Int]]
 calculateScores ingred = scores
@@ -36,19 +40,21 @@ calculateScores ingred = scores
                   w2 <- [0..100],
                   w3 <- [0..100],
                   100 - w1 - w2 - w3 >= 0]
-        getScore = foldr (\(w, x) [cap, dur, fla, tex, cal] -> [
-                                     w * capacity x + cap,
-                                     w * durability x + dur,
-                                     w * flavor x + fla,
-                                     w * texture x + tex,
-                                     w * calories x + cal
-                                    ]) [0, 0, 0, 0, 0]
+        getScore = foldr (\(w, x) [cap, dur, fla, tex, cal] ->
+                            [
+                              w * capacity x + cap,
+                              w * durability x + dur,
+                              w * flavor x + fla,
+                              w * texture x + tex,
+                              w * calories x + cal
+                            ]) [0, 0, 0, 0, 0]
         scores = map getScore weights
 
 findMax :: [[Int]] -> Int
-findMax scores = maximum $ map (\x -> let ing = init x -- exclude calories
-                                      in if any (<= 0) ing then 0
-                                         else product ing) scores
+findMax scores =
+  maximum $ map (\x -> let ing = init x -- exclude calories
+                       in if any (<= 0) ing then 0
+                          else product ing) scores
 
 -- part 1: find best recipe
 maximizeScore :: [Ingredient] -> Int

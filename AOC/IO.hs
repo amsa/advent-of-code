@@ -23,3 +23,20 @@ processInput' readerFn fn = do
 eachLine :: Show a1 => (a -> a1) -> [a] -> [String]
 eachLine lineFn = map $ show . lineFn
 
+-- Parse map strings associated list
+toAssocList :: String
+         -> [(String, String)]
+toAssocList = _toTuple . _parseMap "" where
+  _parseMap :: String -> String -> [String]
+  _parseMap ""  [] = []
+  _parseMap tmp [] = reverse tmp:_parseMap "" []
+  _parseMap tmp (' ':xs) = _parseMap tmp xs
+  _parseMap ""  (':':xs) = _parseMap "" xs
+  _parseMap tmp (':':xs) = reverse tmp:_parseMap "" xs
+  _parseMap tmp (',':xs) = reverse tmp:_parseMap "" xs
+  _parseMap tmp (x:xs)   = _parseMap (x:tmp) xs
+
+  _toTuple :: [a] -> [(a, a)]
+  _toTuple [] = []
+  _toTuple (k:v:vs) = (k,v):_toTuple vs
+  _toTuple _ = []
