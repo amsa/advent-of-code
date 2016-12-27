@@ -180,3 +180,12 @@ executable day17
   build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0
   default-language:    Haskell2010
+
+executable day18
+  hs-source-dirs:      day18
+  main-is:             Main.hs
+  ghc-options:         -O2 -Wall
+  build-depends:       base >= 4.8,
+                       advent-of-code >= 0.1.0.0,
+                       array >= 0.5.1
+  default-language:    Haskell2010
