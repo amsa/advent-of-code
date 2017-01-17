@@ -3,9 +3,15 @@ module AOC.IO where
 import           Control.Exception (catch, IOException)
 import           System.Environment (getArgs)
 import           System.IO (hPutStrLn, stderr)
+import qualified Data.Text as T (Text, lines)
+import qualified Data.Text.IO as T (readFile)
 
-processInput :: ([String] -> b) -> IO b
+
+processInput :: ([String] -> a) -> IO a
 processInput fn = processInput' readFile (fn . lines)
+
+processText :: ([T.Text] -> a) -> IO a
+processText fn = processInput' T.readFile (fn . T.lines)
 
 processInput' :: (String -> IO a) -> (a -> b) -> IO b
 processInput' readerFn fn = do
@@ -23,7 +29,6 @@ processInput' readerFn fn = do
 eachLine :: Show a1 => (a -> a1) -> [a] -> [String]
 eachLine lineFn = map $ show . lineFn
 
--- Parse map strings associated list
 toAssocList :: String
          -> [(String, String)]
 toAssocList = _toTuple . _parseMap "" where

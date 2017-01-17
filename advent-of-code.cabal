@@ -16,7 +16,8 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  build-depends:       base >= 4.8
+  build-depends:       base >= 4.8,
+                       text >= 1.2
   exposed-modules:     AOC.IO
   ghc-options:         -O2 -Wall 
   default-language:    Haskell2010
@@ -188,4 +189,14 @@ executable day18
   build-depends:       base >= 4.8,
                        advent-of-code >= 0.1.0.0,
                        array >= 0.5.1
+  default-language:    Haskell2010
+
+executable day19
+  hs-source-dirs:      day19
+  main-is:             Main.hs
+  ghc-options:         -O2 -Wall
+  build-depends:       base >= 4.8,
+                       advent-of-code >= 0.1.0.0,
+                       containers >= 0.5,
+                       text >= 1.2
   default-language:    Haskell2010
