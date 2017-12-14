@@ -219,7 +219,7 @@ executable day21
 executable day22
   hs-source-dirs:      day22
   main-is:             Main.hs
-  ghc-options:         -O3 -Wall
+  ghc-options:         -O3 -Wall -pgmlo /usr/local/bin/opt-3.7 -pgmlc /usr/local/bin/llc-3.7 -fllvm
   build-depends:       base >= 4.9,
                        containers > 0.5,
                        lens > 4.0,

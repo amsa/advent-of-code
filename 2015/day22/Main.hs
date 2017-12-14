@@ -1,0 +1,141 @@
+{-# LANGUAGE TemplateHaskell #-}
+
+{-
+Solution from github.com/tylerjl/adventofcode
+-}
+
+module Main where
+
+import           Control.Lens
+import           Data.List    (foldr)
+import           Data.Map     (Map, insert, keys, member)
+import qualified Data.Map     as M
+
+data Boss = Boss
+    { _damage :: Int
+    , _hp     :: Int
+    } deriving (Eq, Show)
+
+data Player = Player
+    { _armor :: Int
+    , _life  :: Int
+    , _mana  :: Int
+    , _spent :: Int
+    } deriving (Eq, Show)
+
+data State = PlayerTurn
+           | BossTurn
+           deriving (Show)
+
+data Game = Game
+    { _boss    :: Boss
+    , _effects :: Map Spell Int
+    , _hard    :: Bool
+    , _player  :: Player
+    , _state   :: State
+    } deriving (Show)
+
+data Spell = MagicMissile
+           | Drain
+           | Shield
+           | Poison
+           | Recharge
+           deriving (Enum, Eq, Ord, Show)
+
+-- |Represents the final result of a sequence of player moves.
+data Result = Won Int -- ^ Indicates a player win with the total mana spent.
+            | Lost    -- ^ Player loss.
+            deriving (Eq, Ord, Show)
+
+makeLenses ''Boss
+makeLenses ''Game
+makeLenses ''Player
+
+cast :: Spell -> Game -> Game
+cast spell = action
+           . (player.mana -~ cost)
+           . (player.spent +~ cost)
+    where
+        (action, cost) = case spell of
+            MagicMissile -> (boss.hp -~ 4, 53)
+            Drain        -> ((boss.hp -~ 2) . (player.life +~ 2), 73)
+            Shield       -> (e Shield 6, 113)
+            Poison       -> (e Poison 6, 173)
+            Recharge     -> (e Recharge 5, 229)
+        e s t = effects %~ insert s t
+
+affect :: Spell -> Game -> Game
+affect Shield   = player.armor .~ 7
+affect Poison   = boss.hp -~ 3
+affect Recharge = player.mana +~ 101
+affect _        = id
+
+stepEffects :: Game -> Game
+stepEffects game =
+    foldr affect (game' & effects %~ step) (keys $ game^.effects)
+    where game' = game & player.armor .~ 0
+          step  = M.filter (0 <) . M.map pred
+
+stepGame :: Game -> [Result]
+stepGame game
+    | game^.boss.hp <= 0 =
+        [Won $ game^.player.spent]
+    | game^.player.life <= 0 || game^.player.mana < 0 =
+        [Lost]
+    | otherwise =
+        case game^.state of
+            BossTurn   -> stepGame $ strike game' & state .~ PlayerTurn
+            PlayerTurn -> stepSpells game'
+            where game' = stepEffects $ case (game^.hard, game^.state) of
+                              (True, PlayerTurn) -> game & player.life -~ 1
+                              _ -> game
+
+stepSpells :: Game -> [Result]
+stepSpells game =
+    [ result | spell <-
+        [ s | s <- [MagicMissile ..]
+            , not $ member s $ game^.effects
+            ]
+        , let nextTurn = cast spell game & state .~ BossTurn
+        , result <- stepGame nextTurn
+    ]
+
+strike :: Game -> Game
+strike g =
+    player.life -~ max 1 (g^.boss.damage - g^.player.armor) $ g
+
+newGame :: Bool -> Boss -> Game
+newGame hardMode b =
+    Game
+        { _player  = Player
+            { _life = 50
+            , _armor = 0
+            , _mana = 500
+            , _spent = 0
+            }
+        , _boss    = b
+        , _effects = M.empty
+        , _state   = PlayerTurn
+        , _hard    = hardMode
+        }
+
+-- |Finds the minimum required mana to win a game.
+spellBattle :: Bool   -- ^ Whether to run the game in "hard mode"
+            -> Boss -- ^ Boss stats input string
+            -> Result -- ^ Best possible battle outcome
+spellBattle hardMode = minimum . stepGame . newGame hardMode
+
+-- |Provided as a quicker method for testing shorter player battles.
+testSpellBattle :: Bool   -- ^ Whether to run the game in "hard mode"
+                -> Boss   -- ^ Boss stats input string
+                -> Result -- ^ Best possible battle outcome
+testSpellBattle d = minimum . stepGame
+                  . (player.mana .~ 250) . (player.life .~ 10)
+                  . newGame d
+
+main :: IO ()
+main = do
+  -- putStrLn "Part 1:"
+  -- print $ spellBattle False Boss{_hp = 58, _damage = 9}
+  putStrLn "Part 2:"
+  print $ spellBattle True Boss{_hp = 58, _damage = 9}
