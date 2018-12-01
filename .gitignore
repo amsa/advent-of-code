@@ -2,3 +2,5 @@ dist/
 TAGS
 *.hi
 *.o
+*.out
+*.dSYM
