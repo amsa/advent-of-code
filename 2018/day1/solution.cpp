@@ -21,7 +21,7 @@ void part_1()
         total += n;
         return true;
     });
-    cout << "Total: " << total << endl;
+    cout << "1) Total: " << total << endl;
 }
 
 void part_2()
@@ -34,7 +34,7 @@ void part_2()
             total += n;
 
             if (value_set.count(total)) {
-                cout << "The frequency reaches to " << total << " twice. \n";
+                cout << "2) The frequency reaches to " << total << " twice. \n";
                 run = false;
                 return false;
             } else {
